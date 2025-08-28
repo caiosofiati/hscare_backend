@@ -1,18 +1,26 @@
 {
   "name": "hscare-backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
+  "description": "Back end for HSCare application",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.ts"
+    "type": "node_modules/.bin/tsc",
+    "clean": "rmdir -rf ./dist/* -w && Clean finalizado com sucesso.",
+    "start": "node dist/server.js",
+    "build": "tsc"
   },
   "keywords": [],
-  "author": "",
+  "author": "HSCare Team",
   "license": "ISC",
-  "description": "",
   "devDependencies": {
+    "@types/express": "^5.0.3",
     "@types/node": "^24.3.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "express": "^5.1.0"
   }
 }
