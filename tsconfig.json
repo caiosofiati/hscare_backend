@@ -4,6 +4,8 @@
     // "rootDir": "./src",
     // "outDir": "./dist",
 
+    "typeRoots": ["./src/types", "./node_modules/@types"],
+
     // Environment Settings
     "module": "commonjs",
     "target": "ES6",

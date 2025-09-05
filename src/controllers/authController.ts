@@ -1,35 +1,71 @@
 import { Request, Response } from 'express';
-import User from '../models/User'; //Import de dados do usuario do DB
+import User from '../models/Usuario'; //Import de dados do usuario do DB
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 // Função de Registro
 export const register = async (req: Request, res: Response) => {
   const { nome, email, senha } = req.body;
 
-  //Adicionar função para validação de registro
-  try{
-    if(!nome || !email || !senha){
-      return res.status(400).json({ message: "Todos os campos são obrigatórios!" });
+  try {
+    let user = await User.findOne({ email });
+    if (user) {
+      return res.status(400).json({ msg: 'Usuário já existe' });
     }
-    //Validação se já existe email na base -> email tem que ser UQ no DB
-    //Método para encrypt da senha
-    res.json({ nome, email, senha});
+
+    const salt = await bcrypt.genSalt(10);
+    const senhaHash = await bcrypt.hash(senha, salt);
+
+    user = new User({ nome, email, senhaHash });
+    await user.save();
+
+    const payload = { userId: user.id };
+    jwt.sign(payload, process.env.JWT_SECRET || 'seu_segredo', { expiresIn: '5h' }, (err, token) => {
+      if (err) throw err;
+      res.status(201).json({ token });
+    });
 
   }catch(err){
-    console.error();
+    if (err instanceof Error) {
+      console.error(err.message);
+    }
+    res.status(500).send('Erro no servidor');
   }
-};
+  };
 
 // Função de Login
 export const login = async (req: Request, res: Response) => {
   const { email, senha } = req.body;
 
-  //Adicionar função de validação de login
-  try{
-    if(!email || !senha){
-      return res.status(400).json({ message: "Digite e-mail e senha!" })
+  try {
+    if (!email || !senha) {
+      return res.status(400).json({ msg: 'Por favor, forneça email e senha' });
     }
-    res.json({ email, senha });
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ msg: 'Credenciais inválidas' });
+    }
+
+    const isMatch = await bcrypt.compare(senha, user.senhaHash);
+    if (!isMatch) {
+      return res.status(400).json({ msg: 'Credenciais inválidas' });
+    }
+
+    const payload = { userId: user.id };
+    jwt.sign(
+      payload,
+      process.env.JWT_SECRET || 'seu_segredo',
+      { expiresIn: '5h' },
+      (err, token) => {
+        if (err) throw err;
+        res.json({ token });
+      }
+    );
   }catch(err){
-    console.error();
+    if (err instanceof Error) {
+      console.error(err.message);
+    }
+    res.status(500).send('Erro no servidor');
   }
 };
