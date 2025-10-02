@@ -1,12 +1,14 @@
 import { Router } from 'express';
-import { getAgendamentos, criaAgendamento, atualizaAgendamento, deletaAgendamento } from '../controllers/agendamentosController';
+import AgendamentosController from '../controllers/agendamentosController';
 import { protect } from '../middleware/authMiddleware';
 
 const router = Router();
+const controller = AgendamentosController;
 
-router.get('/', protect, getAgendamentos);
-router.post('/', protect, criaAgendamento);
-router.put('/:id', protect, atualizaAgendamento);
-router.delete('/:id', protect, deletaAgendamento);
+// O middleware 'protect' é passado como um passo ANTES do controller.
+router.get('/', protect, controller.getAgendamentos);
+router.post('/', protect, controller.criaAgendamento);
+router.put('/:id', protect, controller.atualizaAgendamento);
+router.delete('/:id', protect, controller.deletaAgendamento);
 
 export default router;

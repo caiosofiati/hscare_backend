@@ -1,11 +1,13 @@
 import { Router } from 'express';
-import { getLembretes, criaLembrete, atualizaLembrete } from '../controllers/lembretesController';
+import LembretesController from '../controllers/lembretesController';
 import { protect } from '../middleware/authMiddleware';
 
 const router = Router();
+const controller = LembretesController;
 
-router.get('/', protect, getLembretes);
-router.post('/', protect, criaLembrete);
-router.put('/:id', protect, atualizaLembrete);
+router.post('/', protect, controller.criaLembrete);
+router.get('/', protect, controller.getLembretes);
+router.put('/:id', protect, controller.atualizaLembrete);
+router.delete('/:id', protect, controller.deletaLembrete);
 
 export default router;

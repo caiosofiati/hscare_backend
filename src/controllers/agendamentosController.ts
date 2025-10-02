@@ -1,73 +1,60 @@
-import { Request, Response } from 'express';
-import Agendamentos from '../models/Agendamentos';
+import { Request, Response, NextFunction } from 'express';
+import AgendamentoService from '../services/AgendamentoService';
 
-// GET
-export const getAgendamentos = async (req: Request, res: Response) => {
-  try {
-    const _agendamento = await Agendamentos.find({ userId: req.user?.id }).sort({ date: 'asc' });
-    res.json(_agendamento);
-  } catch (err) {
-    if (err instanceof Error) console.error(err.message);
-    res.status(500).send('Erro no servidor');
-  }
-};
+class AgendamentosController {
 
-
-// POST
-export const criaAgendamento = async (req: Request, res: Response) => {
-  const { title, date, location, description } = req.body;
-  try {
-    const novoAgendamento = new Agendamentos({
-      userId: req.user?.id,
-      title,
-      date,
-      location,
-      description,
-    });
-    const _agendamento = await novoAgendamento.save();
-    res.status(201).json(_agendamento);
-  } catch (err) {
-    if (err instanceof Error) console.error(err.message);
-    res.status(500).send('Erro no servidor');
-  }
-};
-
-// PUT
-export const atualizaAgendamento = async (req: Request, res: Response) => {
-  try {
-    const _agendamento = await Agendamentos.findById(req.params.id);
-
-    if (!_agendamento) {
-      return res.status(404).json({ msg: 'Compromisso não encontrado' });
+  // Busca todos os agendamentos do usuário autenticado
+  public async getAgendamentos(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      // Delega a busca para o service, passando o ID do usuário logado
+      const agendamentos = await AgendamentoService.getAgendamentos(req.user!.id);
+      res.json(agendamentos);
+    } catch (error) {
+      next(error);
     }
-    if (_agendamento.userId.toString() !== req.user?.id) {
-      return res.status(401).json({ msg: 'Usuário não autorizado' });
-    }
-
-    const atualizaAgendamento = await Agendamentos.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.json(atualizaAgendamento);
-  } catch (err) {
-     if (err instanceof Error) console.error(err.message);
-    res.status(500).send('Erro no servidor');
   }
-};
 
-// DELETE
-export const deletaAgendamento = async (req: Request, res: Response) => {
-  try {
-    const appointment = await Agendamentos.findById(req.params.id);
-
-    if (!appointment) {
-      return res.status(404).json({ msg: 'Compromisso não encontrado' });
+  // Cria um novo agendamento
+  public async criaAgendamento(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      // Passa os dados do corpo da requisição e o ID do usuário para o service
+      const novoAgendamento = await AgendamentoService.criaAgendamento(req.body, req.user!.id);
+      res.status(201).json(novoAgendamento);
+    } catch (error) {
+      next(error);
     }
-    if (appointment.userId.toString() !== req.user?.id) {
-      return res.status(401).json({ msg: 'Usuário não autorizado' });
-    }
-
-    await appointment.deleteOne();
-    res.json({ msg: 'Compromisso removido com sucesso' });
-  } catch (err) {
-     if (err instanceof Error) console.error(err.message);
-    res.status(500).send('Erro no servidor');
   }
-};
+
+  // Atualiza um agendamento existente
+  public async atualizaAgendamento(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const agendamentoAtualizado = await AgendamentoService.atualizaAgendamento(req.params.id, req.body, req.user!.id);
+      
+      if (!agendamentoAtualizado) {
+        res.status(404).json({ msg: 'Agendamento não encontrado ou não autorizado.' });
+        return;
+      }
+      res.json(agendamentoAtualizado);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  // Deleta um agendamento
+  public async deletaAgendamento(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const sucesso = await AgendamentoService.deletaAgendamento(req.params.id, req.user!.id);
+      
+      if (!sucesso) {
+        res.status(404).json({ msg: 'Agendamento não encontrado ou não autorizado.' });
+        return;
+      }
+      res.json({ msg: 'Agendamento removido com sucesso.' });
+    } catch (error) {
+      next(error);
+    }
+  }
+}
+
+// Exporta uma única instância da classe para ser usada nas rotas
+export default new AgendamentosController();

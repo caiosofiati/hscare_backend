@@ -1,31 +1,31 @@
-import { Request, Response } from 'express';
-import FichaMedica from '../models/FichaMedica';
+import { Request, Response, NextFunction } from 'express';
+import FichaMedicaService from '../services/FichaMedicaService';
 
-// GET 
-export const getFichaMedica = async (req: Request, res: Response) => {
-  try {
-    const record = await FichaMedica.findOne({ userId: req.user?.id });
-    if (!record) {
-      return res.status(404).json({ msg: 'Ficha médica não encontrada.' });
+class FichaMedicaController {
+
+  // GET
+  public async getFichaMedica(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const ficha = await FichaMedicaService.getFichaMedica(req.user!.id);
+      if (!ficha) {
+        res.status(404).json({ msg: 'Ficha médica ainda não preenchida.' });
+        return;
+      }
+      res.json(ficha);
+    } catch (error) {
+      next(error);
     }
-    res.json(record);
-  } catch (err) {
-    res.status(500).send('Erro no servidor');
   }
-};
 
-// POST (Cria ou Atualiza)
-export const criaAtualizaFichaMedica = async (req: Request, res: Response) => {
-  const recordData = { ...req.body, userId: req.user?.id };
-
-  try {
-    const record = await FichaMedica.findOneAndUpdate(
-      { userId: req.user?.id }, 
-      recordData, 
-      { new: true, upsert: true, setDefaultsOnInsert: true }
-    );
-    res.status(200).json(record);
-  } catch (err) {
-    res.status(500).send('Erro no servidor');
+  // POST /cria ou atualiza
+  public async criaOuAtualizaFichaMedica(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const ficha = await FichaMedicaService.criaOuAtualizaFichaMedica(req.body, req.user!.id);
+      res.status(200).json(ficha); 
+    } catch (error) {
+      next(error);
+    }
   }
-};
+}
+
+export default new FichaMedicaController();

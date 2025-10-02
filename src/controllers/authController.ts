@@ -1,71 +1,61 @@
-import { Request, Response } from 'express';
-import User from '../models/Usuario'; //Import de dados do usuario do DB
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import { Request, Response, NextFunction } from 'express';
+import AuthService from '../services/AuthService';
 
-// Função de Registro
-export const register = async (req: Request, res: Response) => {
-  const { nome, email, senha } = req.body;
+class AuthController {
 
-  try {
-    let user = await User.findOne({ email });
-    if (user) {
-      return res.status(400).json({ msg: 'Usuário já existe' });
-    }
-
-    const salt = await bcrypt.genSalt(10);
-    const senhaHash = await bcrypt.hash(senha, salt);
-
-    user = new User({ nome, email, senhaHash });
-    await user.save();
-
-    const payload = { userId: user.id };
-    jwt.sign(payload, process.env.JWT_SECRET || 'seu_segredo', { expiresIn: '5h' }, (err, token) => {
-      if (err) throw err;
+  // POST - Registro
+  public async register(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const { user, token } = await AuthService.registro(req.body);
+      // Retornamos o token para o utilizador ser logado automaticamente
       res.status(201).json({ token });
-    });
-
-  }catch(err){
-    if (err instanceof Error) {
-      console.error(err.message);
+    } catch (error) {
+      next(error);
     }
-    res.status(500).send('Erro no servidor');
   }
-  };
 
-// Função de Login
-export const login = async (req: Request, res: Response) => {
-  const { email, senha } = req.body;
-
-  try {
-    if (!email || !senha) {
-      return res.status(400).json({ msg: 'Por favor, forneça email e senha' });
-    }
-
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(400).json({ msg: 'Credenciais inválidas' });
-    }
-
-    const isMatch = await bcrypt.compare(senha, user.senhaHash);
-    if (!isMatch) {
-      return res.status(400).json({ msg: 'Credenciais inválidas' });
-    }
-
-    const payload = { userId: user.id };
-    jwt.sign(
-      payload,
-      process.env.JWT_SECRET || 'seu_segredo',
-      { expiresIn: '5h' },
-      (err, token) => {
-        if (err) throw err;
-        res.json({ token });
+  // POST - Login
+  public async login(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const { token } = await AuthService.login(req.body);
+      res.json({ token });
+    } catch (error) {
+      // Para erros de login, é comum retornar 401 (Não Autorizado)
+      if (error instanceof Error && error.message === 'Credenciais inválidas.') {
+        res.status(401).json({ msg: error.message });
+        return;
       }
-    );
-  }catch(err){
-    if (err instanceof Error) {
-      console.error(err.message);
+      next(error);
     }
-    res.status(500).send('Erro no servidor');
   }
-};
+
+  // GET - Perfil do usuário
+  public async getUserProfile(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const user = await AuthService.getPerfil(req.user!.id);
+      if (!user) {
+        res.status(404).json({ msg: 'Utilizador não encontrado.' });
+        return;
+      }
+      res.json(user);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  // PUT - Atualiza o perfil do usuário
+  public async updateUserProfile(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const updatedUser = await AuthService.atualizaPerfil(req.user!.id, req.body);
+      if (!updatedUser) {
+        res.status(404).json({ msg: 'Utilizador não encontrado.' });
+        return;
+      }
+      res.json(updatedUser);
+    } catch (error) {
+      next(error);
+    }
+  }
+}
+
+export default new AuthController();
