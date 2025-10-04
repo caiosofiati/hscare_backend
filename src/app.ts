@@ -20,8 +20,6 @@ app.use(async (req: Request, res: Response, next: NextFunction) => {
     next();
 });
 
-console.log("Configurando as rotas ...");
-
 for(const router of getApiControllers()) {
     if(router.active()) {
         router.applyRoutes(app);
