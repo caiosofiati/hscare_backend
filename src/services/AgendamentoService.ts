@@ -1,65 +1,71 @@
 import Agendamentos, { IAgendamentos } from '../models/Agendamentos';
+import { InputCriarAgendamento } from '../models/interfaces/InputCriarAgendamento';
+import { InputAtualizarAgendamento } from '../models/interfaces/InputAtualizarAgendamento';
 
-interface CriaAgendamentoI {
-  titulo: string;
-  data: Date;
-  local?: string;
-  descricao?: string;
-}
+export class AgendamentoService {
 
-class AgendamentoService {
-  
-    // Busca todos os agendamentos de um usuário específico.
-    public static async getAgendamentos(userId: string): Promise<IAgendamentos[]> {
-        return Agendamentos.find({ userId }).sort({ data: 'asc' });
+  // Busca todos os agendamentos do usuário.
+  public async getAgendamentos(userId: string): Promise<IAgendamentos[]> {
+    return Agendamentos.find({ userId }).sort({ data: 'asc' });
+  }
+
+  public async getPorId(agendamentoId: string, userId: string): Promise<IAgendamentos | null> {
+    const agendamento = await Agendamentos.findById(agendamentoId);
+    if (agendamento && agendamento.userId.toString() === userId) {
+      return agendamento;
     }
-    
-    // Cria um novo agendamento.
-    public static async criaAgendamento(dados: CriaAgendamentoI, userId: string): Promise<IAgendamentos> {
-        // Não permitir agendamentos em datas passadas
-        if (new Date(dados.data) < new Date()) {
-        throw new Error('Não é possível criar agendamentos em datas passadas.');
-        }
+    return null;
+  }
+
+  // Cria um novo agendamento.
+  public async criaAgendamento(dados: InputCriarAgendamento, userId: string): Promise<IAgendamentos> {
+
+    // Não permitir agendamentos em datas passadas
+    if (new Date(dados.data) < new Date()) {
+      throw new Error('Não é possível criar agendamentos em datas passadas.');
+    }
 
     // Verificar conflito de horário
     const conflito = await Agendamentos.findOne({ userId, data: dados.data });
-        if (conflito) {
-        throw new Error('Já existe um agendamento marcado exatamente neste horário.');
+
+    if (conflito) {
+      throw new Error('Já existe um agendamento marcado neste horário.');
     }
 
     // Se todas as regras passaram, cria o novo agendamento
     const novoAgendamento = new Agendamentos({
-        ...dados,
-        userId: userId,
+      ...dados,
+      userId: userId,
     });
-    
+
     return novoAgendamento.save();
   }
 
-    // Atualiza um agendamento existente.
-    public static async atualizaAgendamento(agendamentoId: string, dados: Partial<CriaAgendamentoI>, userId: string): Promise<IAgendamentos | null> {
-        const agendamento = await Agendamentos.findById(agendamentoId);
+  // Atualiza um agendamento existente.
+  public async atualizaAgendamento(agendamentoId: string, dados: InputAtualizarAgendamento, userId: string): Promise<IAgendamentos | null> {
+
+    const AtualizaAgendamento = await this.getPorId(agendamentoId, userId);
 
     // Garante que um usuário só pode atualizar seus próprios agendamentos
-    if (!agendamento || agendamento.userId.toString() !== userId) {
-        return null;
+    if (!AtualizaAgendamento) {
+      return null;
     }
 
     return Agendamentos.findByIdAndUpdate(agendamentoId, dados, { new: true });
   }
-  
-    // Deleta um agendamento.
-    public static async deletaAgendamento(agendamentoId: string, userId: string): Promise<boolean> {
-    const agendamento = await Agendamentos.findById(agendamentoId);
+
+  // Deleta um agendamento.
+  public async deletaAgendamento(agendamentoId: string, userId: string): Promise<boolean> {
+
+    const agendamentoExistente = await this.getPorId(agendamentoId, userId);
 
     // Garante que um usuário só pode deletar seus próprios agendamentos
-    if (!agendamento || agendamento.userId.toString() !== userId) {
-        return false; 
+    if (!agendamentoExistente) {
+      return false;
     }
 
-    await agendamento.deleteOne();
+    await agendamentoExistente.deleteOne();
     return true;
   }
 }
 
-export default AgendamentoService;

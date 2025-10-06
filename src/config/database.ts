@@ -5,7 +5,7 @@ class Database {
         try {
             await mongoose.connect(process.env.MONGO_AC || '');
 
-            console.log('Mongo DB conecatado !');
+            console.log('Mongo DB conectado!');
         } catch (error) {
             console.error(error);
         }

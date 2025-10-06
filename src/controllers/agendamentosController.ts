@@ -1,60 +1,28 @@
-import { Request, Response, NextFunction } from 'express';
-import AgendamentoService from '../services/AgendamentoService';
+import { AgendamentoService } from '../services/AgendamentoService';
+import { InputCriarAgendamento } from '../models/interfaces/InputCriarAgendamento';
+import { InputAtualizarAgendamento } from '../models/interfaces/InputAtualizarAgendamento';
+import { IAgendamentos } from '../models/Agendamentos';
 
-class AgendamentosController {
+export class AgendamentosController {
+  private service: AgendamentoService;
 
-  // Busca todos os agendamentos do usuário autenticado
-  public async getAgendamentos(req: Request, res: Response, next: NextFunction): Promise<void> {
-    try {
-      // Delega a busca para o service, passando o ID do usuário logado
-      const agendamentos = await AgendamentoService.getAgendamentos(req.user!.id);
-      res.json(agendamentos);
-    } catch (error) {
-      next(error);
-    }
+  constructor({ service = new AgendamentoService() }) {
+    this.service = service;
   }
 
-  // Cria um novo agendamento
-  public async criaAgendamento(req: Request, res: Response, next: NextFunction): Promise<void> {
-    try {
-      // Passa os dados do corpo da requisição e o ID do usuário para o service
-      const novoAgendamento = await AgendamentoService.criaAgendamento(req.body, req.user!.id);
-      res.status(201).json(novoAgendamento);
-    } catch (error) {
-      next(error);
-    }
+  public async getAgendamentos(userId: string): Promise<IAgendamentos[]> {
+    return this.service.getAgendamentos(userId);
   }
 
-  // Atualiza um agendamento existente
-  public async atualizaAgendamento(req: Request, res: Response, next: NextFunction): Promise<void> {
-    try {
-      const agendamentoAtualizado = await AgendamentoService.atualizaAgendamento(req.params.id, req.body, req.user!.id);
-      
-      if (!agendamentoAtualizado) {
-        res.status(404).json({ msg: 'Agendamento não encontrado ou não autorizado.' });
-        return;
-      }
-      res.json(agendamentoAtualizado);
-    } catch (error) {
-      next(error);
-    }
+  public async criaAgendamento(dados: InputCriarAgendamento, userId: string): Promise<IAgendamentos> {
+    return this.service.criaAgendamento(dados, userId);
   }
 
-  // Deleta um agendamento
-  public async deletaAgendamento(req: Request, res: Response, next: NextFunction): Promise<void> {
-    try {
-      const sucesso = await AgendamentoService.deletaAgendamento(req.params.id, req.user!.id);
-      
-      if (!sucesso) {
-        res.status(404).json({ msg: 'Agendamento não encontrado ou não autorizado.' });
-        return;
-      }
-      res.json({ msg: 'Agendamento removido com sucesso.' });
-    } catch (error) {
-      next(error);
-    }
+  public async atualizaAgendamento(agendamentoId: string, dados: InputAtualizarAgendamento, userId: string): Promise<IAgendamentos | null> {
+    return this.service.atualizaAgendamento(agendamentoId, dados, userId);
+  }
+
+  public async deletaAgendamento(agendamentoId: string, userId: string): Promise<boolean> {
+    return this.service.deletaAgendamento(agendamentoId, userId);
   }
 }
-
-// Exporta uma única instância da classe para ser usada nas rotas
-export default new AgendamentosController();
