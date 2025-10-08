@@ -1,7 +1,6 @@
 import express from 'express';
 import { ApiRouter } from './api.router';
 import { AgendamentosController } from '../controllers/agendamentosController';
-import { protect } from '../middleware/authMiddleware';
 import { InputCriarAgendamento } from '../models/interfaces/InputCriarAgendamento';
 import { InputAtualizarAgendamento } from '../models/interfaces/InputAtualizarAgendamento';
 
@@ -21,7 +20,7 @@ export class AgendamentosApi extends ApiRouter {
     public async applyRoutes(server: express.Application): Promise<void> {
 
         // Rota para buscar todos os agendamentos
-        server.get(`${this.pathAgendamentos}`, protect, async (request: express.Request, response: express.Response, next: express.NextFunction) => {
+        server.get(`${this.pathAgendamentos}`, async (request: express.Request, response: express.Response, next: express.NextFunction) => {
             try {
                 const idUsuario = String(request.headers.idUsuario);
 
@@ -32,7 +31,7 @@ export class AgendamentosApi extends ApiRouter {
         });
 
         // Rota para criar um novo agendamento
-        server.post(`${this.pathAgendamentos}`, protect, async (request: express.Request, response: express.Response, next: express.NextFunction) => {
+        server.post(`${this.pathAgendamentos}`, async (request: express.Request, response: express.Response, next: express.NextFunction) => {
             try {
                 const idUsuario = String(request.headers.idUsuario);
                 const criaAgendamento: InputCriarAgendamento = {
@@ -50,7 +49,7 @@ export class AgendamentosApi extends ApiRouter {
         });
 
         // Rota para atualizar um agendamento
-        server.put(`${this.pathAgendamentos}/:id`, protect, async (request: express.Request, response: express.Response, next: express.NextFunction) => {
+        server.put(`${this.pathAgendamentos}/:id`, async (request: express.Request, response: express.Response, next: express.NextFunction) => {
             try {
                 const idUsuario = String(request.headers.idUsuario);
                 const atualizaAgendamento: InputAtualizarAgendamento = {
@@ -72,7 +71,7 @@ export class AgendamentosApi extends ApiRouter {
         });
 
         // Rota para deletar um agendamento
-        server.delete(`${this.pathAgendamentos}/:id`, protect, async (request: express.Request, response: express.Response, next: express.NextFunction) => {
+        server.delete(`${this.pathAgendamentos}/:id`, async (request: express.Request, response: express.Response, next: express.NextFunction) => {
             try {
                 const idUsuario = String(request.headers.idUsuario);
                 const deletaAgendamento: InputAtualizarAgendamento = {

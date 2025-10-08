@@ -1,31 +1,19 @@
-import { Request, Response, NextFunction } from 'express';
-import FichaMedicaService from '../services/FichaMedicaService';
+import { FichaMedicaService } from '../services/FichaMedicaService';
+import { InputFichaMedica } from '../models/interfaces/InputFichaMedica';
+import { IFichaMedica } from '../models/FichaMedica';
 
-class FichaMedicaController {
+export class FichaMedicaController {
+  private service: FichaMedicaService;
 
-  // GET
-  public async getFichaMedica(req: Request, res: Response, next: NextFunction): Promise<void> {
-    try {
-      const ficha = await FichaMedicaService.getFichaMedica(req.user!.id);
-      if (!ficha) {
-        res.status(404).json({ msg: 'Ficha médica ainda não preenchida.' });
-        return;
-      }
-      res.json(ficha);
-    } catch (error) {
-      next(error);
-    }
+  constructor({ service = new FichaMedicaService() }) {
+    this.service = service;
   }
 
-  // POST /cria ou atualiza
-  public async criaOuAtualizaFichaMedica(req: Request, res: Response, next: NextFunction): Promise<void> {
-    try {
-      const ficha = await FichaMedicaService.criaOuAtualizaFichaMedica(req.body, req.user!.id);
-      res.status(200).json(ficha); 
-    } catch (error) {
-      next(error);
-    }
+  public async getFichaMedica(userId: string): Promise<IFichaMedica | null> {
+    return this.service.getFichaMedica(userId);
+  }
+
+  public async criarOuAtualizar(dados: InputFichaMedica, userId: string): Promise<IFichaMedica> {
+    return this.service.criarOuAtualizar(dados, userId);
   }
 }
-
-export default new FichaMedicaController();

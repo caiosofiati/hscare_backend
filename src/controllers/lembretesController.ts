@@ -1,55 +1,28 @@
-import { Request, Response, NextFunction } from 'express';
-import LembreteService from '../services/LembreteService';
+import { LembreteService } from '../services/LembreteService';
+import { InputCriarLembrete } from '../models/interfaces/InputCriarLembrete';
+import { InputAtualizarLembrete } from '../models/interfaces/InputAtualizarLembrete';
+import { ILembretes } from '../models/Lembretes';
 
-class LembretesController {
+export class LembretesController {
+  private service: LembreteService;
 
-  // GET
-  public async getLembretes(req: Request, res: Response, next: NextFunction): Promise<void> {
-    try {
-      const lembretes = await LembreteService.getLembretes(req.user!.id);
-      res.json(lembretes);
-  } catch (error) {
-      next(error);
-    }
+  constructor({ service = new LembreteService() }) {
+    this.service = service;
   }
 
-  // POST
-  public async criaLembrete(req: Request, res: Response, next: NextFunction): Promise<void> {
-    try {
-      const lembrete = await LembreteService.criaLembrete(req.body, req.user!.id);
-      res.status(201).json(lembrete);
-    } catch (error) {
-        next(error);
-    }
+  public async getLembretes(userId: string): Promise<ILembretes[]> {
+    return this.service.getLembretes(userId);
   }
 
-  // PUT 
-  public async atualizaLembrete(req: Request, res: Response, next: NextFunction): Promise<void> {
-    try {
-      const lembreteAtualizado = await LembreteService.atualizaLembrete(req.params.id, req.body, req.user!.id);
-      if (!lembreteAtualizado) {
-          res.status(404).json({ msg: 'Lembrete não encontrado ou utilizador não autorizado' });
-          return;
-      }
-      res.json(lembreteAtualizado);
-    } catch (error) {
-        next(error);
-    }
+  public async criaLembrete(dados: InputCriarLembrete, userId: string): Promise<ILembretes> {
+    return this.service.criaLembrete(dados, userId);
   }
 
-  // DELETE
-  public async deletaLembrete(req: Request, res: Response, next: NextFunction): Promise<void> {
-    try {
-      const sucesso = await LembreteService.deletaLembrete(req.params.id, req.user!.id);
-      if (!sucesso) {
-        res.status(404).json({ msg: 'Lembrete não encontrado ou utilizador não autorizado' });
-        return;
-      }
-      res.json({ msg: 'Lembrete removido com sucesso' });
-    } catch (error) {
-      next(error);
-    }
+  public async atualizaLembrete(lembreteId: string, dados: InputAtualizarLembrete, userId: string): Promise<ILembretes | null> {
+    return this.service.atualizaLembrete(lembreteId, dados, userId);
+  }
+
+  public async deletaLembrete(lembreteId: string, userId: string): Promise<boolean> {
+    return this.service.deletaLembrete(lembreteId, userId);
   }
 }
-
-export default new LembretesController();
