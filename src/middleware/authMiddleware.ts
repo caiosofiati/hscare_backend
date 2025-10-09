@@ -10,7 +10,7 @@ declare global {
   }
 }
 
-export const protect = (req: Request, res: Response, next: NextFunction) => {
+export const protect = async (req: Request, res: Response, next: NextFunction) => {
   let token;
   const authHeader = req.headers.authorization;
 
@@ -22,7 +22,7 @@ export const protect = (req: Request, res: Response, next: NextFunction) => {
       const decoded = jwt.verify(token, process.env.JWT_SECRET || 'seu_segredo') as { userId: string };
 
       // Adiciona os dados do usuário (apenas o ID) na requisição
-      req.user = { id: decoded.userId };
+      res.setHeader('idUsuario', decoded.userId);
       next();
     } catch (error) {
       res.status(401).json({ msg: 'Token inválido, autorização negada' });

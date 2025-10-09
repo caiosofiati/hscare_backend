@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IFichaMedica extends Document {
-  userId: mongoose.Schema.Types.ObjectId;
+  userId: string;
   tipoSanguineo?: string;
   alergias?: Array<string>;
   tabagismo?: boolean;
@@ -13,7 +13,7 @@ export interface IFichaMedica extends Document {
 }
 
 const FichaSchema: Schema = new Schema({
-  userId: { type: Schema.Types.ObjectId, ref: 'User', required: true, unique: true },
+  userId: { type: String, ref: 'User', required: true, unique: true },
   tipoSanguineo: { type: String },
   alergias: { type: Array<string> },
   tabagismo: { type: Boolean, default: false },

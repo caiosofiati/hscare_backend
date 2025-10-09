@@ -22,7 +22,7 @@ export class LembretesApi extends ApiRouter {
         // Rota para buscar todos os lembretes
         server.get(`${this.pathLembretes}`, async (request: express.Request, response: express.Response, next: express.NextFunction) => {
             try {
-                const idUsuario = String(request.headers.idUsuario);
+                const idUsuario = String(response.getHeader('idUsuario'));
 
                 return response.json(await this.controller.getLembretes(idUsuario));
             } catch (error) {
@@ -33,7 +33,7 @@ export class LembretesApi extends ApiRouter {
         // Rota para criar um novo lembrete
         server.post(`${this.pathLembretes}`, async (request: express.Request, response: express.Response, next: express.NextFunction) => {
             try {
-                const idUsuario = String(request.headers.idUsuario);
+                const idUsuario = String(response.getHeader('idUsuario'));
                 const criaLembrete: InputCriarLembrete = {
                     data: request.body.data,
                     titulo: request.body.titulo,
@@ -52,7 +52,7 @@ export class LembretesApi extends ApiRouter {
         // Rota para atualizar um lembrete
         server.put(`${this.pathLembretes}/:id`, async (request: express.Request, response: express.Response, next: express.NextFunction) => {
             try {
-                const idUsuario = String(request.headers.idUsuario);
+                const idUsuario = String(response.getHeader('idUsuario'));
                 const atualizaLembrete: InputAtualizarLembrete = {
                     id: request.params.id,
                     data: request.body.data,
@@ -75,7 +75,7 @@ export class LembretesApi extends ApiRouter {
         // Rota para deletar um lembrete
         server.delete(`${this.pathLembretes}/:id`, async (request: express.Request, response: express.Response, next: express.NextFunction) => {
             try {
-                const idUsuario = String(request.headers.idUsuario);
+                const idUsuario = String(response.getHeader('idUsuario'));
                 const deletaAgendamento: InputAtualizarLembrete = {
                     id: request.params.id,
                 };

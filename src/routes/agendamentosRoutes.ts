@@ -22,7 +22,7 @@ export class AgendamentosApi extends ApiRouter {
         // Rota para buscar todos os agendamentos
         server.get(`${this.pathAgendamentos}`, async (request: express.Request, response: express.Response, next: express.NextFunction) => {
             try {
-                const idUsuario = String(request.headers.idUsuario);
+                const idUsuario = String(response.getHeader('idUsuario'));
 
                 return response.json(await this.controller.getAgendamentos(idUsuario));
             } catch (error) {
@@ -33,7 +33,7 @@ export class AgendamentosApi extends ApiRouter {
         // Rota para criar um novo agendamento
         server.post(`${this.pathAgendamentos}`, async (request: express.Request, response: express.Response, next: express.NextFunction) => {
             try {
-                const idUsuario = String(request.headers.idUsuario);
+                const idUsuario = String(response.getHeader('idUsuario'));
                 const criaAgendamento: InputCriarAgendamento = {
                     titulo: request.body.titulo,
                     data: request.body.data,
@@ -51,7 +51,7 @@ export class AgendamentosApi extends ApiRouter {
         // Rota para atualizar um agendamento
         server.put(`${this.pathAgendamentos}/:id`, async (request: express.Request, response: express.Response, next: express.NextFunction) => {
             try {
-                const idUsuario = String(request.headers.idUsuario);
+                const idUsuario = String(response.getHeader('idUsuario'));
                 const atualizaAgendamento: InputAtualizarAgendamento = {
                     id: request.params.id,
                     titulo: request.body.titulo,
@@ -73,7 +73,7 @@ export class AgendamentosApi extends ApiRouter {
         // Rota para deletar um agendamento
         server.delete(`${this.pathAgendamentos}/:id`, async (request: express.Request, response: express.Response, next: express.NextFunction) => {
             try {
-                const idUsuario = String(request.headers.idUsuario);
+                const idUsuario = String(response.getHeader('idUsuario'));
                 const deletaAgendamento: InputAtualizarAgendamento = {
                     id: request.params.id,
                 };
