@@ -22,7 +22,7 @@ export class FichaMedicaApi extends ApiRouter {
         // Rota para buscar a ficha médica do utilizador logado
         server.get(`${this.pathFichaMedica}`, async (request: express.Request, response: express.Response, next: express.NextFunction) => {
             try {
-                const idUsuario = String(request.headers.idUsuario);
+                const idUsuario = String(request.query.idUsuario);
                 const ficha = await this.controller.getFichaMedica(idUsuario);
 
                 if (!ficha) {
