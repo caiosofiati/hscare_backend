@@ -15,13 +15,13 @@ const getApiControllers = (): ApiRouter[] => [new AuthApi(), new UsuarioApi(), n
 const app = express();
 
 app.use(bodyParser.json());
-app.use(async (req: Request, res: Response, next: NextFunction) => {
-    if (!rotasQueNaoPrecisaValidarToken.includes(req.path)) {
-        await protect(req, res, next)
-    };
-
-    next();
-});
+// app.use(async (req: Request, res: Response, next: NextFunction) => {
+//     if (!rotasQueNaoPrecisaValidarToken.includes(req.path)) {
+//         await protect(req, res, next)
+//     };
+//
+//     next();
+// });
 
 for (const router of getApiControllers()) {
     if (router.active()) {
