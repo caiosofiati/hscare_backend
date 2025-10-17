@@ -30,9 +30,8 @@ export class UsuarioApi extends ApiRouter {
            try {
                const idUsuario = String(request.headers.idUsuario);
 
-               // Adicionar os dados que precisa para atualizar aqui.
                const dadosAtualizadosDoUsuario = {
-                idUsuario: String(request.body._id),
+                idUsuario: request.body._id,
                 nome: request.body.nome,
                 email: request.body.email,
                 telefone: request.body.telefone,

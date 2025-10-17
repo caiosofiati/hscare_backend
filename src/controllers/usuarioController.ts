@@ -1,4 +1,3 @@
-import { Request, Response, NextFunction } from 'express';
 import { UsuarioService } from '../services/UsuarioService';
 import { IUsuario } from '../models/Usuario';
 

@@ -19,7 +19,6 @@ export class FichaMedicaApi extends ApiRouter {
 
     public async applyRoutes(server: express.Application): Promise<void> {
 
-        // Rota para buscar a ficha médica do utilizador logado
         server.get(`${this.pathFichaMedica}`, async (request: express.Request, response: express.Response, next: express.NextFunction) => {
             try {
                 const idUsuario = String(request.query.idUsuario);
@@ -34,7 +33,6 @@ export class FichaMedicaApi extends ApiRouter {
             }
         });
 
-        // Rota para atualizar a ficha médica
         server.post(`${this.pathFichaMedica}`, async (request: express.Request, response: express.Response, next: express.NextFunction) => {
             try {
                 const fichaMedica: InputFichaMedica = {

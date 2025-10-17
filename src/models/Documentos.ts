@@ -16,6 +16,4 @@ const DocumentoSchema: Schema = new Schema({
   arqTipo: { type: String, required: true },
 });
 
-export default mongoose.model<IDocumentos>('Documentos', DocumentoSchema
-
-);
+export default mongoose.model<IDocumentos>('Documentos', DocumentoSchema);

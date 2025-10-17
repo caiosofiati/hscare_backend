@@ -19,7 +19,6 @@ export class LembretesApi extends ApiRouter {
 
     public async applyRoutes(server: express.Application): Promise<void> {
 
-        // Rota para buscar todos os lembretes
         server.get(`${this.pathLembretes}`, async (request: express.Request, response: express.Response, next: express.NextFunction) => {
             try {
                 const idUsuario = String(request.headers.idUsuario);
@@ -30,7 +29,6 @@ export class LembretesApi extends ApiRouter {
             }
         });
 
-        // Rota para criar um novo lembrete
         server.post(`${this.pathLembretes}`, async (request: express.Request, response: express.Response, next: express.NextFunction) => {
             try {
                 const idUsuario = String(request.headers.idUsuario);
@@ -49,7 +47,6 @@ export class LembretesApi extends ApiRouter {
             }
         });
 
-        // Rota para atualizar um lembrete
         server.put(`${this.pathLembretes}/:id`, async (request: express.Request, response: express.Response, next: express.NextFunction) => {
             try {
                 const idUsuario = String(request.headers.idUsuario);
@@ -72,7 +69,6 @@ export class LembretesApi extends ApiRouter {
             }
         });
 
-        // Rota para deletar um lembrete
         server.delete(`${this.pathLembretes}/:id`, async (request: express.Request, response: express.Response, next: express.NextFunction) => {
             try {
                 const idUsuario = String(request.headers.idUsuario);
