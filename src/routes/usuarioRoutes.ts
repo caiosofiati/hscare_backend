@@ -28,8 +28,6 @@ export class UsuarioApi extends ApiRouter {
 
         server.post(`${this.pathUsuario}/atualizar`, async (request: express.Request, response: express.Response, next: express.NextFunction) => {
            try {
-               const idUsuario = String(request.headers.idUsuario);
-
                const dadosAtualizadosDoUsuario = {
                 idUsuario: request.body._id,
                 nome: request.body.nome,
