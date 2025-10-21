@@ -1,7 +1,6 @@
 import express from 'express';
 import { ApiRouter } from './api.router';
 import { FichaMedicaController } from '../controllers/fichaMedicaController';
-import { protect } from '../middleware/authMiddleware';
 import { InputFichaMedica } from '../models/interfaces/InputFichaMedica';
 
 export class FichaMedicaApi extends ApiRouter {
@@ -36,15 +35,14 @@ export class FichaMedicaApi extends ApiRouter {
         server.post(`${this.pathFichaMedica}`, async (request: express.Request, response: express.Response, next: express.NextFunction) => {
             try {
                 const fichaMedica: InputFichaMedica = {
-                    userId: response.getHeader('idUsuario') as string,
+                    userId: request.headers.idusuario as string,
                     tipoSanguineo: request.body.tipoSanguineo,
                     alergias: request.body.alergias,
-                    tabagismo: request.body.tabagismo,
-                    drogas: request.body.drogas,
-                    etilista: request.body.etilista,
-                    tipoDieta: request.body.tipoDieta,
                     doencaCronica: request.body.doencaCronica,
                     medicamentos: request.body.medicamentos,
+                    doadorOrgaos: request.body.doadorOrgaos,
+                    dataNascimento: request.body.dataNascimento,
+                    genero: request.body.genero,
                 };
                 const ficha = await this.controller.criarOuAtualizar(fichaMedica, fichaMedica.userId);
 
