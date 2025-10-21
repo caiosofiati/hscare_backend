@@ -1,7 +1,5 @@
 export interface InputCriarLembrete {
-    data: Date;
-    titulo: string;
-    descricao?: string;
-    recorrente?: boolean;
-    intervaloRecorrencia?: number;
+  data: Date;
+  titulo: string;
+  dias: string[];
 }
