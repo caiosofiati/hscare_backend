@@ -10,16 +10,12 @@ export class LembretesController {
     this.service = service;
   }
 
-  public async getLembretes(userId: string): Promise<ILembretes[]> {
-    return this.service.getLembretes(userId);
+  public async buscarLembretes(userId: string): Promise<ILembretes[]> {
+    return this.service.buscarLembretes(userId);
   }
 
   public async criaLembrete(dados: InputCriarLembrete, userId: string): Promise<ILembretes> {
     return this.service.criaLembrete(dados, userId);
-  }
-
-  public async atualizaLembrete(lembreteId: string, dados: InputAtualizarLembrete, userId: string): Promise<ILembretes | null> {
-    return this.service.atualizaLembrete(lembreteId, dados, userId);
   }
 
   public async deletaLembrete(lembreteId: string, userId: string): Promise<boolean> {
