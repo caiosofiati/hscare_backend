@@ -36,18 +36,17 @@ export class FichaMedicaApi extends ApiRouter {
         server.post(`${this.pathFichaMedica}`, async (request: express.Request, response: express.Response, next: express.NextFunction) => {
             try {
                 const fichaMedica: InputFichaMedica = {
-                    userId: request.headers.idUsuario as string,
+                    userId: request.headers.idusuario as string,
                     tipoSanguineo: request.body.tipoSanguineo,
                     alergias: request.body.alergias,
-                    tabagismo: request.body.tabagismo,
-                    drogas: request.body.drogas,
-                    etilista: request.body.etilista,
-                    tipoDieta: request.body.tipoDieta,
                     doencaCronica: request.body.doencaCronica,
                     medicamentos: request.body.medicamentos,
+                    doadorOrgaos: request.body.doadorOrgaos, //Add no BD
+                    dataNascimento: request.body.dataNascimento, //Add no BD
+                    genero: request.body.genero, //Add no BD 
                 };
                 const ficha = await this.controller.criarOuAtualizar(fichaMedica, fichaMedica.userId);
-
+                
                 return response.json(ficha);
             } catch (error) {
                 next(error);
