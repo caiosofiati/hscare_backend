@@ -28,12 +28,17 @@ export class UsuarioApi extends ApiRouter {
 
         server.post(`${this.pathUsuario}/atualizar`, async (request: express.Request, response: express.Response, next: express.NextFunction) => {
             try {
-                const idUsuario = String(response.getHeader('idUsuario'));
+                const dadosAtualizadosDoUsuario = {
+                    idUsuario: request.body._id,
+                    nome: request.body.nome,
+                    email: request.body.email,
+                    telefone: request.body.telefone,
+                    cpf: request.body.cpf,
+                    endereco: request.body.endereco,
+                    contatos: request.body.contatos,
+                };
 
-                // Adicionar os dados que precisa para atualizar aqui.
-                const dadosAtualizadosDoUsuario = {};
-
-                return response.json(await this.controller.atualizarUsuario(idUsuario, dadosAtualizadosDoUsuario));
+                return response.json(await this.controller.atualizarUsuario(dadosAtualizadosDoUsuario.idUsuario, dadosAtualizadosDoUsuario));
             } catch (error) {
                 next(error);
             }

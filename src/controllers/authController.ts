@@ -1,4 +1,3 @@
-import { Request, Response, NextFunction } from 'express';
 import { AuthService } from '../services/AuthService';
 import { InputRegistrarUsuario } from '../models/interfaces/InputRegistrarUsuario';
 import { OutputRegistrarUsuario } from '../models/interfaces/OutputRegistrarUsuario';

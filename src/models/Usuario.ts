@@ -10,7 +10,7 @@ export interface IUsuario extends Document {
   cpf?: string;
   responsaveis?: mongoose.Schema.Types.ObjectId[];
   dependentes?: mongoose.Schema.Types.ObjectId[];
-  contatos?: string[];
+  contatos?: object[];
 }
 
 const UsuarioSchema: Schema = new Schema({
@@ -23,7 +23,7 @@ const UsuarioSchema: Schema = new Schema({
   cpf: { type: String, unique: true, sparse: true },
   responsaveis: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   dependentes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-  contatos: [String], 
+  contatos: [Object], 
 });
 
 export default mongoose.model<IUsuario>('Usuario', UsuarioSchema);
