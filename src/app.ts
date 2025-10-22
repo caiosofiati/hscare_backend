@@ -7,6 +7,7 @@ import { LembretesApi } from "./routes/lembretesRoutes";
 import { FichaMedicaApi } from "./routes/fichaMedicaRoutes";
 import { ApiRouter } from "./routes/api.router";
 import { protect } from "./middleware/authMiddleware";
+import rotasQueNaoPrecisaValidarToken from "./utils/jsons/rotasQueNaoPrecisaValidarOToken.json";
 
 const getApiControllers = (): ApiRouter[] => [new AuthApi(), new UsuarioApi(), new LembretesApi(), new FichaMedicaApi()];
 
