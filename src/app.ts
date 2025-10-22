@@ -8,6 +8,7 @@ import { FichaMedicaApi } from "./routes/fichaMedicaRoutes";
 import { ApiRouter } from "./routes/api.router";
 import { protect } from "./middleware/authMiddleware";
 import rotasQueNaoPrecisaValidarToken from "./utils/jsons/rotasQueNaoPrecisaValidarOToken.json";
+import logger from "./utils/logger";
 
 const getApiControllers = (): ApiRouter[] => [new AuthApi(), new UsuarioApi(), new LembretesApi(), new FichaMedicaApi()];
 
@@ -29,7 +30,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 for (const router of getApiControllers()) {
     if (router.active()) {
         router.applyRoutes(app);
-        console.log(`Rota ${router.constructor ? router.constructor.name : ""} configurada.`);
+        logger.info(`Rota ${router.constructor ? router.constructor.name : ""} configurada.`);
     }
 }
 

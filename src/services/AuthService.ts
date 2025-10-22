@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { InputRegistrarUsuario } from '../models/interfaces/InputRegistrarUsuario';
 import { OutputRegistrarUsuario } from '../models/interfaces/OutputRegistrarUsuario';
+import logger from '../utils/logger';
 
 export class AuthService {
     private generateToken(userId: string): string {
@@ -14,6 +15,7 @@ export class AuthService {
     };
 
     async registro(dadosUsuario: InputRegistrarUsuario): Promise<OutputRegistrarUsuario> {
+    logger.info(`Criando novo usuário com email ${dadosUsuario.email}`);
 
     const { nome, email, senha, cpf } = dadosUsuario;
 
@@ -35,6 +37,8 @@ export class AuthService {
  };
 
     async login(email: string, senha: string): Promise<OutputRegistrarUsuario> {
+        logger.info(`Efetivando login para o usuário com email ${email}`);
+        
         const usuario = await User.findOne({ email });
             if (!usuario) {
                 throw new Error('Credenciais inválidas.');

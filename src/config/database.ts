@@ -1,13 +1,14 @@
 import mongoose from 'mongoose';
+import logger from '../utils/logger';
 
 class Database {
     static async conectar(): Promise<void> {
         try {
             await mongoose.connect(process.env.MONGO_AC || '');
 
-            console.log('Mongo DB conectado!');
+            logger.info(`MongoDB conectado com sucesso.`);
         } catch (error) {
-            console.error(error);
+            logger.error(error);
         }
 
     }
