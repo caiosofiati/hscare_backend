@@ -9,7 +9,6 @@ export const protect = (req: Request, res: Response, next: NextFunction) => {
     try {
       token = authHeader.split(' ')[1];
 
-      // Verifica se o token é válido
       const decoded = jwt.verify(token, process.env.JWT_SECRET || 'seu_segredo');
 
       return next();

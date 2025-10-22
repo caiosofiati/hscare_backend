@@ -2,7 +2,6 @@ import express from 'express';
 import { ApiRouter } from './api.router';
 import { LembretesController } from '../controllers/lembretesController';
 import { InputCriarLembrete } from '../models/interfaces/InputCriarLembrete';
-import { InputAtualizarLembrete } from '../models/interfaces/InputAtualizarLembrete';
 
 export class LembretesApi extends ApiRouter {
     private readonly pathLembretes: string;

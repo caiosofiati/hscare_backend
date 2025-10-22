@@ -1,6 +1,5 @@
 import Lembretes, { ILembretes } from '../models/Lembretes';
 import { InputCriarLembrete } from '../models/interfaces/InputCriarLembrete';
-import { InputAtualizarLembrete } from '../models/interfaces/InputAtualizarLembrete';
 import { ObjectId } from 'mongodb';
 
 export class LembreteService {
