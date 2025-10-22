@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
-export const protect = (req: Request, res: Response, next: NextFunction) => {
+export const protect = async (req: Request, res: Response, next: NextFunction) => {
   let token;
   const authHeader = req.headers.authorization;
 
@@ -13,7 +13,7 @@ export const protect = (req: Request, res: Response, next: NextFunction) => {
 
       return next();
     } catch (error) {
-     return res.status(401).json({ msg: 'Token inválido, autorização negada' });
+      return res.status(401).json({ msg: 'Token inválido, autorização negada' });
     }
   }
 
