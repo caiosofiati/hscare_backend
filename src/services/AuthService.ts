@@ -15,14 +15,14 @@ export class AuthService {
     };
 
     async registro(dadosUsuario: InputRegistrarUsuario): Promise<OutputRegistrarUsuario> {
-    logger.info(`Criando novo usuário com email ${dadosUsuario.email}`);
+    logger.info(`Criando novo usuario com email ${dadosUsuario.email}`);
 
     const { nome, email, senha, cpf } = dadosUsuario;
 
     const buscarUsuario = await User.findOne({ email });
 
         if (buscarUsuario) {
-            throw new Error('Já existe um usuário com este e-mail.');
+            throw new Error('Já existe um usuario com este e-mail.');
         }
 
     const salt = await bcrypt.genSalt(10);
@@ -37,8 +37,8 @@ export class AuthService {
  };
 
     async login(email: string, senha: string): Promise<OutputRegistrarUsuario> {
-        logger.info(`Efetivando login para o usuário com email ${email}`);
-        
+        logger.info(`Efetivando login para o usuario com email ${email}`);
+
         const usuario = await User.findOne({ email });
             if (!usuario) {
                 throw new Error('Credenciais inválidas.');

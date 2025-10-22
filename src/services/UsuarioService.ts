@@ -4,13 +4,13 @@ import logger from '../utils/logger';
 
 export class UsuarioService {
       public async buscarUsuarioPorEmail(email: string): Promise<IUsuario | null> {
-        logger.info(`Buscando usuário de email ${email}`);
+        logger.info(`Buscando usuario de email ${email}`);
         
         return User.findOne({email: email}).select('-senhaHash');
     }
 
       public async atualizarUsuario(idUsuario: string, dadosAtualizados: object): Promise<IUsuario | null> {
-        logger.info(`Atualizando dados do usuário ${idUsuario}`);
+        logger.info(`Atualizando dados do usuario ${idUsuario}`);
 
         return User.findOneAndUpdate(new ObjectId(idUsuario), dadosAtualizados, { new: true }).select('-senhaHash');
     }

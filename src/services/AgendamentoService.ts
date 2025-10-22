@@ -6,13 +6,13 @@ import logger from '../utils/logger';
 export class AgendamentoService {
 
   public async getAgendamentos(userId: string): Promise<IAgendamentos[]> {
-    logger.info(`Buscando agendamentos para o usuário ${userId}`);
+    logger.info(`Buscando agendamentos para o usuario ${userId}`);
 
     return Agendamentos.find({ userId }).sort({ data: 'asc' });
   }
 
   public async getPorId(agendamentoId: string, userId: string): Promise<IAgendamentos | null> {
-    logger.info(`Buscando agendamento de id ${agendamentoId}, para o usuário ${userId}`);
+    logger.info(`Buscando agendamento de id ${agendamentoId}, para o usuario ${userId}`);
 
     const agendamento = await Agendamentos.findById(agendamentoId);
     if (agendamento && agendamento.userId.toString() === userId) {
@@ -22,7 +22,7 @@ export class AgendamentoService {
   }
 
   public async criaAgendamento(dados: InputCriarAgendamento, userId: string): Promise<IAgendamentos> {
-  logger.info(`Criando agendamento para o usuário ${userId}`);
+  logger.info(`Criando agendamento para o usuario ${userId}`);
 
     if (new Date(dados.data) < new Date()) {
       throw new Error('Não é possível criar agendamentos em datas passadas.');
@@ -45,7 +45,7 @@ export class AgendamentoService {
   }
 
   public async atualizaAgendamento(agendamentoId: string, dados: InputAtualizarAgendamento, userId: string): Promise<IAgendamentos | null> {
-  logger.info(`Atualizando agendamento ${agendamentoId} para o usuário ${userId}`);
+  logger.info(`Atualizando agendamento ${agendamentoId} para o usuario ${userId}`);
 
     const AtualizaAgendamento = await this.getPorId(agendamentoId, userId);
 
@@ -57,7 +57,7 @@ export class AgendamentoService {
   }
 
   public async deletaAgendamento(agendamentoId: string, userId: string): Promise<boolean> {
-    logger.info(`Deletando agendamento de id ${agendamentoId} do usuário ${userId}`);
+    logger.info(`Deletando agendamento de id ${agendamentoId} do usuario ${userId}`);
 
     const agendamentoExistente = await this.getPorId(agendamentoId, userId);
 
