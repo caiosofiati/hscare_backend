@@ -1,0 +1,322 @@
+const faqData = [
+  {
+    id: "item-1",
+    question: "Porque é importante manter os meus documentos de saúde organizados?",
+    answer: "Manter os seus documentos de saúde (exames, prescrições, historial) organizados permite um acesso rápido e fácil a informações cruciais durante consultas médicas ou emergências. Ajuda os profissionais de saúde a terem uma visão completa do seu historial, resultando num diagnóstico mais preciso e num tratamento mais eficaz."
+  },
+  {
+    id: "item-2",
+    question: "Com que frequência devo fazer um check-up geral?",
+    answer: "A frequência ideal varia com a idade, sexo e fatores de risco. Para adultos saudáveis, um check-up a cada 1-3 anos é geralmente recomendado. Após os 50 anos, ou se tiver condições crónicas, check-ups anuais são aconselhados. Consulte sempre o seu médico para um plano personalizado."
+  },
+  {
+    id: "item-3",
+    question: "Como posso preparar-me para uma consulta médica?",
+    answer: "Para aproveitar ao máximo a sua consulta, prepare-se com antecedência. Anote todos os seus sintomas, a que horas começaram e o que os melhora ou piora. Leve uma lista de todos os medicamentos e suplementos que toma. Tenha os seus exames recentes à mão e não hesite em anotar as perguntas que quer fazer ao médico."
+  },
+  {
+    id: "item-4",
+    question: "Qual a diferença entre medicamentos genéricos e de marca?",
+    answer: "Os medicamentos genéricos têm o mesmo princípio ativo, dosagem, segurança e eficácia que os medicamentos de marca. A principal diferença é o preço, sendo os genéricos geralmente mais acessíveis. Eles só podem ser produzidos depois de a patente do medicamento de marca expirar."
+  },
+  {
+    id: "item-5",
+    question: "Porque é importante tomar a medicação nos horários corretos?",
+    answer: "Tomar a medicação nos horários prescritos pelo seu médico é fundamental para manter um nível constante e eficaz do medicamento no seu corpo. Falhar ou atrasar doses pode reduzir a eficácia do tratamento, levar a recaídas ou, em alguns casos, causar complicações."
+  },
+  {
+    id: "item-6",
+    question: "O que devo levar para uma primeira consulta médica?",
+    answer: "Leve sempre um documento de identificação, o seu cartão de saúde ou seguro, exames recentes, lista de medicamentos que utiliza, histórico médico (se disponível) e anote sintomas ou dúvidas. Isso facilita a avaliação do médico e evita que informações importantes sejam esquecidas."
+  },
+  {
+    id: "item-7",
+    question: "Qual a importância da vacinação em adultos?",
+    answer: "As vacinas não são apenas para crianças. Adultos também precisam manter o calendário vacinal em dia para prevenir doenças graves, como gripe, tétano, pneumonia e hepatite. Além de proteger o indivíduo, a vacinação ajuda a reduzir a propagação de doenças na comunidade."
+  },
+  {
+    id: "item-8",
+    question: "Como posso melhorar a comunicação com o meu médico?",
+    answer: "Seja claro e objetivo ao descrever sintomas, mencione quando começaram e como afetam o seu dia a dia. Anote dúvidas antes da consulta e não hesite em pedir esclarecimentos. Uma boa comunicação ajuda o médico a entender melhor a sua situação e a oferecer um tratamento mais adequado."
+  },
+  {
+    id: "item-9",
+    question: "Exames de rotina são sempre necessários?",
+    answer: "Sim, mesmo em pessoas aparentemente saudáveis, exames de rotina ajudam a identificar doenças em fases iniciais, quando são mais fáceis de tratar. A periodicidade varia conforme idade, histórico familiar e estilo de vida, devendo ser definida em conjunto com o médico."
+  },
+  {
+    id: "item-10",
+    question: "Qual é a diferença entre prevenção primária, secundária e terciária em saúde?",
+    answer: "A prevenção primária visa evitar o surgimento de doenças (ex.: vacinação, hábitos saudáveis). A prevenção secundária busca identificar precocemente problemas de saúde através de rastreios e exames. Já a prevenção terciária procura reduzir complicações e melhorar a qualidade de vida em quem já tem uma doença diagnosticada."
+  },
+  {
+    id: "item-11",
+    question: "Devo procurar um médico mesmo que os sintomas desapareçam?",
+    answer: "Sim, em muitos casos os sintomas podem desaparecer temporariamente sem que a causa real tenha sido resolvida. Ignorar sinais iniciais pode atrasar o diagnóstico e o tratamento de condições mais sérias. É sempre recomendado consultar um profissional se houver dúvidas sobre o seu estado de saúde."
+  }
+];
+
+const faqPrimeirosSocorros = [
+  {
+    id: "pp-1",
+    question: "O que devo fazer em caso de corte superficial?",
+    answer: "Lave a ferida com água corrente e sabão neutro, seque com pano limpo e cubra com um curativo estéril."
+  },
+  {
+    id: "pp-2",
+    question: "Como agir em uma crise de engasgo?",
+    answer: "Tente a manobra de Heimlich se a pessoa não conseguir respirar, falar ou tossir. Procure ajuda médica imediatamente."
+  },
+  {
+    id: "pp-3",
+    question: "O que fazer em caso de desmaio?",
+    answer: "Deite a pessoa de costas, eleve as pernas e afrouxe roupas apertadas. Se não recuperar rapidamente, chame socorro."
+  },
+  {
+    id: "pp-4",
+    question: "Qual o procedimento inicial para queimadura leve?",
+    answer: "Resfrie a área afetada com água corrente fria por 10 a 20 minutos, cubra com pano limpo e evite pomadas caseiras."
+  },
+  {
+    id: "pp-5",
+    question: "Como proceder em caso de torção no tornozelo?",
+    answer: "Imobilize o local, aplique gelo nas primeiras 24 horas e evite apoiar o peso. Se houver inchaço intenso, procure um médico."
+  },
+  {
+    id: "pp-6",
+    question: "O que fazer se alguém tiver uma convulsão?",
+    answer: "Afaste objetos perigosos ao redor, coloque a pessoa de lado e não introduza nada na boca. Após a crise, procure atendimento médico."
+  },
+  {
+    id: "pp-7",
+    question: "Como agir em caso de picada de inseto?",
+    answer: "Lave o local com água e sabão, aplique compressa fria e, se houver reação alérgica grave, procure atendimento imediato."
+  },
+  {
+    id: "pp-8",
+    question: "O que fazer diante de uma suspeita de fratura?",
+    answer: "Imobilize a área com talas improvisadas e evite movimentar. Leve a pessoa ao hospital imediatamente."
+  },
+  {
+    id: "pp-9",
+    question: "Como devo agir em uma hemorragia nasal?",
+    answer: "Incline a cabeça levemente para frente e pressione as narinas por 10 minutos. Evite inclinar para trás."
+  },
+  {
+    id: "pp-10",
+    question: "O que fazer em caso de parada cardíaca?",
+    answer: "Inicie imediatamente massagem cardíaca (RCP) e chame ajuda médica. Se disponível, utilize um desfibrilador automático."
+  }
+];
+
+const faqAutocuidado = [
+  {
+    id: "au-1",
+    question: "Quantas horas de sono são recomendadas para adultos?",
+    answer: "A maioria dos adultos precisa entre 7 e 9 horas de sono por noite para manter um bom equilíbrio físico e mental."
+  },
+  {
+    id: "au-2",
+    question: "A prática regular de atividade física melhora a imunidade?",
+    answer: "Sim, exercícios regulares fortalecem o sistema imunológico, melhoram a circulação e reduzem o risco de doenças crônicas."
+  },
+  {
+    id: "au-3",
+    question: "Qual a importância de beber água diariamente?",
+    answer: "Manter-se hidratado é essencial para o funcionamento dos órgãos, regulação da temperatura corporal e transporte de nutrientes."
+  },
+  {
+    id: "au-4",
+    question: "Uma dieta equilibrada pode prevenir doenças?",
+    answer: "Sim, a alimentação rica em frutas, vegetais, fibras e proteínas de qualidade ajuda a prevenir obesidade, diabetes e doenças cardíacas."
+  },
+  {
+    id: "au-5",
+    question: "O estresse pode afetar a saúde física?",
+    answer: "Sim, o estresse crônico pode contribuir para hipertensão, problemas cardíacos, distúrbios do sono e queda da imunidade."
+  },
+  {
+    id: "au-6",
+    question: "Ouvir música ou meditar ajuda na saúde mental?",
+    answer: "Sim, práticas de relaxamento reduzem ansiedade, equilibram o humor e melhoram a concentração."
+  },
+  {
+    id: "au-7",
+    question: "Qual a recomendação de atividade física semanal para adultos?",
+    answer: "A OMS recomenda pelo menos 150 minutos de atividade física moderada ou 75 minutos intensa por semana."
+  },
+  {
+    id: "au-8",
+    question: "É necessário evitar totalmente o açúcar?",
+    answer: "Não, mas o consumo deve ser moderado. Excesso de açúcar está ligado a obesidade, diabetes e problemas dentários."
+  },
+  {
+    id: "au-9",
+    question: "Exposição ao sol faz bem para a saúde?",
+    answer: "Sim, a exposição moderada ao sol ajuda na produção de vitamina D, mas deve ser feita com proteção adequada para evitar câncer de pele."
+  },
+  {
+    id: "au-10",
+    question: "Como melhorar a qualidade do sono?",
+    answer: "Mantenha horários regulares para dormir, evite eletrônicos antes de deitar, reduza cafeína à noite e crie um ambiente calmo no quarto."
+  }
+];
+
+const faqSaudeFinanceira = [
+  {
+    id: "sf-1",
+    question: "Como posso economizar em consultas médicas?",
+    answer: "Busque clínicas populares, programas de saúde pública e planos coletivos. A portabilidade entre planos também pode reduzir custos."
+  },
+  {
+    id: "sf-2",
+    question: "Medicamentos genéricos realmente ajudam a economizar?",
+    answer: "Sim, os genéricos são mais baratos e têm a mesma eficácia que os medicamentos de referência, sendo uma alternativa segura."
+  },
+  {
+    id: "sf-3",
+    question: "Exames laboratoriais podem ser feitos pelo SUS?",
+    answer: "Sim, o SUS oferece uma ampla gama de exames gratuitamente, embora o tempo de espera possa variar conforme a região."
+  },
+  {
+    id: "sf-4",
+    question: "Vale a pena contratar um plano de saúde?",
+    answer: "Depende da sua idade, histórico de saúde e orçamento. Para quem necessita de consultas e exames frequentes, pode representar economia e agilidade."
+  },
+  {
+    id: "sf-5",
+    question: "Como reduzir gastos com internações hospitalares?",
+    answer: "Manter a saúde em dia com prevenção, ter um plano adequado e verificar programas de apoio podem diminuir custos imprevistos."
+  },
+  {
+    id: "sf-6",
+    question: "Posso deduzir gastos com saúde no imposto de renda?",
+    answer: "Sim, despesas médicas, planos de saúde e internações podem ser declarados e deduzidos integralmente no IRPF."
+  },
+  {
+    id: "sf-7",
+    question: "Medicamentos de uso contínuo têm desconto?",
+    answer: "Sim, muitos laboratórios e farmácias oferecem programas de fidelidade que reduzem o preço de medicamentos de uso prolongado."
+  },
+  {
+    id: "sf-8",
+    question: "Exames caros podem ser parcelados?",
+    answer: "Alguns laboratórios oferecem parcelamento, e planos de saúde podem cobrir parcialmente os custos conforme a rede credenciada."
+  },
+  {
+    id: "sf-9",
+    question: "Consultas particulares são sempre mais caras que plano?",
+    answer: "Em geral sim, mas clínicas populares podem oferecer valores acessíveis, especialmente para especialidades básicas."
+  },
+  {
+    id: "sf-10",
+    question: "Quais os principais gastos de saúde a longo prazo?",
+    answer: "Medicamentos de uso contínuo, consultas especializadas, exames preventivos e possíveis internações representam os maiores custos recorrentes."
+  }
+];
+
+const faqSaudeDigital = [
+  {
+    id: "sd-1",
+    question: "O que é telemedicina?",
+    answer: "Telemedicina é o atendimento médico realizado à distância, utilizando recursos digitais para consultas, diagnósticos e acompanhamento."
+  },
+  {
+    id: "sd-2",
+    question: "As consultas por telemedicina são legais?",
+    answer: "Sim, a telemedicina é regulamentada e pode ser utilizada desde que a plataforma seja autorizada e os profissionais sejam devidamente registrados."
+  },
+  {
+    id: "sd-3",
+    question: "Quais cuidados devo ter ao usar aplicativos de saúde?",
+    answer: "Verifique se o app tem certificado de segurança, se protege seus dados pessoais e se é associado a instituições de saúde reconhecidas."
+  },
+  {
+    id: "sd-4",
+    question: "Posso receber prescrição médica por teleconsulta?",
+    answer: "Sim, médicos podem emitir receitas digitais com assinatura eletrônica válida, aceitas em farmácias em todo o país."
+  },
+  {
+    id: "sd-5",
+    question: "Exames laboratoriais podem ser solicitados por telemedicina?",
+    answer: "Sim, o médico pode solicitar exames durante uma teleconsulta, e o paciente realiza em laboratórios normalmente."
+  },
+  {
+    id: "sd-6",
+    question: "Como funciona a carteira digital de vacinação?",
+    answer: "É um aplicativo ou plataforma online onde o cidadão registra e acompanha todas as vacinas aplicadas, facilitando o controle e comprovação."
+  },
+  {
+    id: "sd-7",
+    question: "Apps de monitoramento de saúde substituem consultas médicas?",
+    answer: "Não. Eles ajudam no acompanhamento de hábitos e sinais vitais, mas não substituem avaliação profissional."
+  },
+  {
+    id: "sd-8",
+    question: "Como garantir a privacidade em consultas online?",
+    answer: "Utilize apenas plataformas seguras, evite conexões públicas de Wi-Fi e mantenha antivírus atualizado no dispositivo."
+  },
+  {
+    id: "sd-9",
+    question: "Posso usar dispositivos vestíveis para acompanhar minha saúde?",
+    answer: "Sim, smartwatches e pulseiras podem monitorar frequência cardíaca, sono e atividade física, fornecendo dados úteis para médicos."
+  },
+  {
+    id: "sd-10",
+    question: "A inteligência artificial já é usada na área da saúde?",
+    answer: "Sim, a IA auxilia em diagnósticos, análise de exames, triagem de pacientes e até no desenvolvimento de novos medicamentos."
+  }
+];
+
+const faqPlanoSaude = [
+  {
+    id: "ps-1",
+    question: "Qual a diferença entre plano de saúde e seguro saúde?",
+    answer: "O plano de saúde oferece atendimento direto em uma rede credenciada de hospitais e clínicas. O seguro saúde reembolsa despesas médicas, permitindo ao paciente escolher livremente onde será atendido."
+  },
+  {
+    id: "ps-2",
+    question: "O que significa carência em um plano de saúde?",
+    answer: "Carência é o período inicial em que o beneficiário ainda não pode utilizar determinados serviços do plano. Esse prazo varia conforme o procedimento, como consultas simples ou internações."
+  },
+  {
+    id: "ps-3",
+    question: "Posso incluir dependentes no meu plano de saúde?",
+    answer: "Sim, geralmente é possível incluir cônjuge, filhos, enteados e até pais, dependendo do regulamento do plano contratado."
+  },
+  {
+    id: "ps-4",
+    question: "O que é coparticipação?",
+    answer: "É quando o beneficiário paga uma parte do valor do atendimento ou exame realizado, além da mensalidade. Esse modelo costuma reduzir o custo fixo do plano."
+  },
+  {
+    id: "ps-5",
+    question: "Como funciona o reembolso em um plano de saúde?",
+    answer: "Quando o paciente se consulta fora da rede credenciada, pode enviar a nota fiscal e solicitar ao plano a devolução parcial ou total do valor, conforme contrato."
+  },
+  {
+    id: "ps-6",
+    question: "Planos de saúde cobrem doenças preexistentes?",
+    answer: "Sim, mas pode haver período de carência ou Cobertura Parcial Temporária (CPT) para procedimentos de alta complexidade relacionados a essas doenças."
+  },
+  {
+    id: "ps-7",
+    question: "Como sei se um hospital faz parte da rede credenciada?",
+    answer: "A lista de hospitais, laboratórios e clínicas conveniados pode ser consultada no site do plano, aplicativo oficial ou central de atendimento."
+  },
+  {
+    id: "ps-8",
+    question: "Qual a diferença entre urgência e emergência no plano de saúde?",
+    answer: "Urgência refere-se a situações sem risco imediato de vida, como fraturas simples. Emergência envolve risco imediato, como infarto ou acidente grave, devendo ser atendido de imediato."
+  },
+  {
+    id: "ps-9",
+    question: "Posso trocar de plano de saúde sem cumprir nova carência?",
+    answer: "Sim, através da portabilidade de carências, desde que sejam cumpridos os critérios da ANS, como tempo mínimo de permanência no plano atual."
+  },
+  {
+    id: "ps-10",
+    question: "Exames de rotina estão cobertos pelo plano de saúde?",
+    answer: "Sim, os planos devem cobrir exames básicos e procedimentos previstos no rol de cobertura mínima obrigatória definido pela ANS."
+  }
+];

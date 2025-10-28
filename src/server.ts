@@ -1,8 +1,14 @@
 import app from "./app";
-import { Database } from "./configuration/database";
+import dotenv from 'dotenv';
+import Database from "./config/database";
+import logger from "./utils/logger";
 
-app.listen(3000, async () => {
-  console.info("Servidor rodando na porta 3000");
+dotenv.config();
+
+const port = 3000;
+
+app.listen(port, async () => {
+  logger.info(`Servidor rodando na porta ${port}`);
 
   await Database.conectar();
 });
