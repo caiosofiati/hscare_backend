@@ -22,7 +22,9 @@ export class AuthService {
     const buscarUsuario = await User.findOne({ email });
 
         if (buscarUsuario) {
-            throw new Error('Já existe um usuario com este e-mail.');
+            const erroUsuarioJaCadastrado: any = new Error("Usuário já cadastrado com este email.");
+            erroUsuarioJaCadastrado.statusCode = 422;
+            throw erroUsuarioJaCadastrado;
         }
 
     const salt = await bcrypt.genSalt(10);
@@ -40,14 +42,22 @@ export class AuthService {
         logger.info(`Efetivando login para o usuario com email ${email}`);
 
         const usuario = await User.findOne({ email });
+
+        let erro: any;
+
             if (!usuario) {
-                throw new Error('Credenciais inválidas.');
+            erro = new Error("Usuário não encontrado.");
+            erro.statusCode = 404;
+            throw erro;
             }
 
         const validaSenha = await bcrypt.compare(senha, usuario.senhaHash);
             if (!validaSenha) {
-                throw new Error('Credenciais inválidas.');
+            erro = new Error("Credenciais inválidas.");
+            erro.statusCode = 401;
+            throw erro;
             }
+            
         const token = this.generateToken(usuario.id);
 
         return { token, usuario };
