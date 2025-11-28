@@ -24,7 +24,7 @@ src/
 └── server.ts       # Ponto de entrada da aplicação
 ```
 
-# 🛠️ Pré-requisitos
+## 🛠️ Pré-requisitos
 ```
 - Node.js instalado.
 
@@ -32,7 +32,7 @@ src/
 
 - Chave de API do Google AI Studio (para o Gemini).
 ```
-# ⚙️ Instalação e Configuração
+## ⚙️ Instalação e Configuração
 ```
 Clone o repositório e entre na pasta do backend:
 cd hscare_backend
@@ -49,13 +49,13 @@ GEMINI_API_KEY="sua_chave_api_do_google_gemini"
 Inicie o Servidor:
 ```
 
-# Iniciando o serviço do Back-End
+## Iniciando o serviço do Back-End
 ```
 npm run dev
 O servidor rodará em http://localhost:5000.
 ```
 
-# 📡 Endpoints Principais
+## 📡 Endpoints Principais
 ```
 - Autenticação
 
@@ -78,7 +78,7 @@ GET /documents/file/:fileId - Visualizar/Baixar arquivo.
 POST /ia/chat - Enviar pergunta para o assistente.
 ```
 
-# 🧪 Testes
+## 🧪 Testes
 ```
 Recomenda-se utilizar o Postman ou Insomnia para testar as rotas. Lembre-se de incluir o Authorization: Bearer <SEU_TOKEN> no cabeçalho das rotas protegidas.
 ```
