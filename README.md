@@ -49,7 +49,7 @@ GEMINI_API_KEY="sua_chave_api_do_google_gemini"
 Inicie o Servidor:
 ```
 
-## Iniciando o serviço do Back-End
+## 🖥️ Iniciando o serviço do Back-End
 ```
 npm run dev
 O servidor rodará em http://localhost:5000.
