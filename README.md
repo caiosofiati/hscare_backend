@@ -1,4 +1,4 @@
-# HSCare - Backend API
+# 🌱 HSCare - Backend API
 
 O **HSCare Backend** é uma API RESTful robusta desenvolvida para gerenciar os dados do aplicativo de saúde HSCare. Ele utiliza uma arquitetura em camadas (Routes-Controllers-Services) para garantir escalabilidade, segurança e fácil manutenção.
 
